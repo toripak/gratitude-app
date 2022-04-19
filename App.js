@@ -1,34 +1,40 @@
 import { StyleSheet, TouchableOpacity, Text, View, Image, Button, KeyboardAvoidingView, TextInput, Platform } from 'react-native';
 import Item from './components/Item';
+import InputField from './components/InputField';
 import React, { useState } from 'react';
 
 const mood = [
   {
-    state: 'angry',
-    src: './angry.jpg'
-  },
-  {
     state: 'happy',
-    src: './happy.jpg'
+    src: './happy.jpg',
+    score: 4,
   },
   {
     state: 'neutral',
-    src: './neutral.jpg'
+    src: './neutral.jpg',
+    score: 3,
   },
   {
     state: 'sad',
-    src: './sad.jpg'
+    src: './sad.jpg',
+    score: 1,
   },
   {
     state: 'upset',
-    src: './upset.jpg'
-  }
+    src: './upset.jpg',
+    score: 2,
+  },
 ]
 
 export default function App() {
   const [start, setStart] = useState(false);
   const [moodIcon, setmoodIcon] = useState('');
-  const [text, setText] = useState('thank you');
+  const [thankee, setThankee] = useState('');
+  const [thankeesList, setThankeesList] = useState([]);
+
+  const thankeeItem = thankeesList.map(t => (
+    <Item key={Math.random()} text={t} />
+  ))
 
   return (
     <View style={styles.container}>
@@ -44,26 +50,12 @@ export default function App() {
       />}
 
       <View style={styles.items}>
-        <Item text={text} />
-        <Item text={text} />
+        {thankeeItem}
       </View>
 
       {/* input field */}
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.inputContainer}
-      >
-        <TextInput
-          style={styles.input}
-          placeholder='I am thankful for...' />
+      {start && <InputField setThankee={setThankee} setThankeesList={setThankeesList} />}
 
-        {/* add a gratitude message */}
-        <TouchableOpacity>
-          <View style={styles.addButtonContainer}>
-            <Text style={styles.addButton}>+</Text>
-          </View>
-        </TouchableOpacity>
-      </KeyboardAvoidingView>
     </View >
   );
 }
@@ -85,34 +77,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontStyle: 'italic'
   },
-  input: {
-    padding: 5,
-    marginTop: 10,
-    maxWidth: 270,
-    borderColor: '#FED7E2',
-    borderRadius: 20,
-    borderWidth: 1,
-  },
-  inputContainer: {
-    position: 'absolute',
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    bottom: 50,
-    padding: 20,
-  },
-  addButtonContainer: {
-    borderColor: '#FBB6CE',
-    borderWidth: 1,
-    width: 40,
-    height: 40,
-    borderRadius: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  addButton: {
-    fontSize: 18,
-  }
-
 });
