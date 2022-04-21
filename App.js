@@ -1,60 +1,49 @@
-import { StyleSheet, TouchableOpacity, Text, View, Image, Button, KeyboardAvoidingView, TextInput, Platform } from 'react-native';
+import { StyleSheet, ScrollView, Text, View, Image, Button } from 'react-native';
 import Item from './components/Item';
 import InputField from './components/InputField';
-import React, { useState } from 'react';
-
-const mood = [
-  {
-    state: 'happy',
-    src: './happy.jpg',
-    score: 4,
-  },
-  {
-    state: 'neutral',
-    src: './neutral.jpg',
-    score: 3,
-  },
-  {
-    state: 'sad',
-    src: './sad.jpg',
-    score: 1,
-  },
-  {
-    state: 'upset',
-    src: './upset.jpg',
-    score: 2,
-  },
-]
+import React, { useState, useEffect } from 'react';
 
 export default function App() {
   const [start, setStart] = useState(false);
-  const [moodIcon, setmoodIcon] = useState('');
-  const [thankee, setThankee] = useState('');
   const [thankeesList, setThankeesList] = useState([]);
 
-  const thankeeItem = thankeesList.map(t => (
+  const thankeeItem = thankeesList?.map(t => (
     <Item key={Math.random()} text={t} />
   ))
+
+  const handleAdd = (thankee) => {
+    setThankeesList(prev => [thankee, ...prev]);
+  }
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Gratitude app 😇</Text>
       <Text style={styles.paragraph}>Count your blessings!✨</Text>
 
-      {!start && <Image source={require('./hero-icon.jpg')} style={{ height: 100, width: 100, resizeMode: 'contain' }} />}
+      {!start && <Image source={require('./hero-icon.jpg')} style={styles.icons} />}
 
+      {/*hide the start Button, set start to 'true' so Input is rendered */}
       {!start && <Button
         onPress={() => setStart(true)}
         title="Start!"
         color='#4299E1'
       />}
 
-      <View style={styles.items}>
-        {thankeeItem}
-      </View>
-
       {/* input field */}
-      {start && <InputField setThankee={setThankee} setThankeesList={setThankeesList} />}
+      {start && <InputField
+        handleAdd={handleAdd}
+      />}
+
+      {/* render a mood icon depending on array length */}
+      {(start && thankeesList?.length === 0) && <Image source={require('./sad.jpg')} style={styles.icons} />}
+      {thankeesList?.length === 1 && <Image source={require('./neutral.jpg')} style={styles.icons} />}
+      {thankeesList?.length === 2 && <Image source={require('./happy.jpg')} style={styles.icons} />}
+      {thankeesList?.length === 3 && <Image source={require('./hero-icon.jpg')} style={styles.icons} />}
+      {/* gif */}
+      {thankeesList.length >= 4 && <Image source={require('./love.gif')} style={{ width: 170, resizeMode: 'contain' }} />}
+
+      {/* list */}
+      {thankeesList?.length > 0 && <Item text={thankeeItem} />}
 
     </View >
   );
@@ -77,4 +66,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontStyle: 'italic'
   },
+  icons: {
+    height: 100,
+    width: 100,
+    resizeMode: 'contain',
+  }
 });
+

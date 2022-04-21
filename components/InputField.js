@@ -25,11 +25,10 @@ export default function InputField({ handleAdd }) {
         placeholder='I am thankful for...'
         onChangeText={text => setThankee(text)}
         value={thankee}
-        required
       />
 
       {/* add a gratitude message */}
-      <TouchableOpacity onPress={() => checkInput(thankee)}>
+      <TouchableOpacity onPress={() => checkInput(thankee)} >
         <View style={styles.addButtonContainer}>
           <Text style={styles.addButton}>+</Text>
         </View>
@@ -41,12 +40,12 @@ export default function InputField({ handleAdd }) {
 const styles = StyleSheet.create({
   input: {
     padding: 10,
-    marginTop: 10,
-    width: 280,
+    width: 270,
     borderColor: '#FED7E2',
     borderRadius: 20,
     borderWidth: 1,
     marginVertical: 10,
+    backgroundColor: '#FFF',
   },
   inputContainer: {
     flex: 1,
@@ -55,7 +54,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    bottom: 40,
+    bottom: 10,
     padding: 20,
     marginVertical: 10,
   },
@@ -67,8 +66,9 @@ const styles = StyleSheet.create({
     borderRadius: 45,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#FFF5F7',
   },
   addButton: {
     fontSize: 18,
-  }
+  },
 });

@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 10,
     minWidth: '90%',
+    zIndex: -1,
   }
 });
 
