@@ -7,10 +7,6 @@ export default function App() {
   const [start, setStart] = useState(false);
   const [thankeesList, setThankeesList] = useState([]);
 
-  const thankeeItem = thankeesList?.map(t => (
-    <Item key={Math.random()} text={t} />
-  ))
-
   const handleAdd = (thankee) => {
     setThankeesList(prev => [thankee, ...prev]);
   }
@@ -43,7 +39,9 @@ export default function App() {
       {thankeesList.length >= 4 && <Image source={require('./love.gif')} style={{ width: 170, resizeMode: 'contain' }} />}
 
       {/* list */}
-      {thankeesList?.length > 0 && <Item text={thankeeItem} />}
+      {thankeesList?.length > 0 && thankeesList?.map(t => (
+    <Item key={Math.random()} text={t} />
+  ))}
 
     </View >
   );
